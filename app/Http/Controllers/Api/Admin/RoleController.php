@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\api\admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RoleRequest;
+use App\Http\Requests\Admin\RoleRequest;
 use App\Http\Resources\RoleResource;
 use App\Models\Role;
 use Jiannei\Response\Laravel\Support\Facades\Response;

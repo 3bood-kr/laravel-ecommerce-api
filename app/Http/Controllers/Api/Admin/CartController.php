@@ -3,36 +3,30 @@
 namespace App\Http\Controllers\api\admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\ProductRequest;
-use App\Http\Resources\ProductResource;
-use App\Models\Product;
+use App\Http\Requests\Admin\CartRequest;
+use App\Http\Resources\CartResource;
+use App\Models\Cart;
 use Jiannei\Response\Laravel\Support\Facades\Response;
 
-class ProductController extends Controller
+class CartController extends Controller
 {
-    public function __construct(){
-        $this->middleware('can:products-read')->only(['index', 'show']);
-        $this->middleware('can:products-create')->only('store');
-        $this->middleware('can:products-update')->only('update');
-        $this->middleware('can:products-delete')->only('destroy');
-    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $products = Product::all();
-        return Response::success(ProductResource::collection($products));
+        $carts = Cart::all();
+        return Response::success(CartResource::collection($carts));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductRequest $request)
+    public function store(CartRequest $request)
     {
         $data = $request->validated();
-        $product = Product::create($data);
-        if(!$product){
+        $cart = Cart::create($data);
+        if(!$cart){
             Response::errorInternal();
         }
         return Response::success();
@@ -43,24 +37,24 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product = Product::find($id);
-        if(!$product){
+        $cart = Cart::find($id);
+        if(!$cart){
             Response::errorNotFound();
         }
-        return Response::success(new ProductResource($product));
+        return Response::success(new CartResource($cart));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProductRequest $request, string $id)
+    public function update(CartRequest $request, string $id)
     {
         $data = $request->validated();
-        $product = Product::find($id);
-        if(!$product){
+        $cart = Cart::find($id);
+        if(!$cart){
             Response::errorNotFound();
         }
-        if(!$product->update($data)){
+        if(!$cart->update($data)){
             Response::errorInternal();
         }
         return Response::success();
@@ -71,13 +65,21 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        $product = Product::find($id);
-        if(!$product){
+        $cart = Cart::find($id);
+        if(!$cart){
             Response::errorNotFound();
         }
-        if(!$product->delete()){
+        if(!$cart->delete()){
             Response::errorInternal();
         }
         return Response::success();
     }
+
+//    public function getCartItems(string $id){
+//        $cart = Cart::find($id);
+//        if(!$cart || !$cart->cartItems){
+//            Response::errorNotFound();
+//        }
+//        return Response::success(CartItemResource::collection($cart->cartItems));
+//    }
 }

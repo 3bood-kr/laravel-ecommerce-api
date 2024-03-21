@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\admin\CartController;
 use App\Http\Controllers\api\admin\CategoryController;
 use App\Http\Controllers\api\admin\ProductController;
 use App\Http\Controllers\api\admin\ReviewController;
@@ -30,16 +31,16 @@ Route::prefix('/')->group(function (){
     Route::middleware('auth:sanctum')->group(function (){
        Route::post('logout', [AuthenticationController::class, 'logout']);
        Route::post('logout/all', [AuthenticationController::class, 'logoutFromAllDevices']);
-
-//       11|fGMqrKxDMDLf1y1wWN9tc9jDvmkVPcqJ2lSwrzQ7c4a77f8f
-//        12|VSVjEqJVO2FPgQirNJCGunQebSgmLJOTiMTVz65u395ee58a
-       //Admin Routes // ToDo add admin prefix
-       Route::middleware(['role:superadmin|admin'])->group(function (){
+       Route::prefix('admin')->middleware(['role:superadmin|admin|editor'])->group(function (){
+//           Route::get('users/{user}/carts', [UserController::class, 'getUserCarts']);
            Route::apiResource('users', UserController::class);
            Route::apiResource('roles', RoleController::class);
            Route::apiResource('categories', CategoryController::class);
            Route::apiResource('products', ProductController::class);
            Route::apiResource('reviews', ReviewController::class);
+//           Route::get('carts/{cart}/items', [CartController::class, 'getCartItems']);
+           Route::apiResource('carts', CartController::class);
+
        });
 
 //       Route::middleware('can:users-read')->get('meow', function (){

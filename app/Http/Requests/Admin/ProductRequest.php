@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -8,7 +8,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Jiannei\Enum\Laravel\Repositories\Enums\HttpStatusCodeEnum;
 use Jiannei\Response\Laravel\Support\Facades\Response;
 
-class ReviewRequest extends FormRequest
+class ProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,19 +26,18 @@ class ReviewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_id' => 'numeric|exists:products,id',
-            'comment' => 'string|min:3|max:255',
-            'rating' => 'numeric|min:1|max:5',
+            'category_id' => 'exists:categories,id',
+            'name' => 'string',
+            'description' => 'string',
+            'price' => 'numeric',
         ];
     }
 
     public function failedValidation(Validator $validator)
-
     {
         throw new HttpResponseException(Response::fail(
             code: HttpStatusCodeEnum::HTTP_UNPROCESSABLE_ENTITY,
             errors: $validator->errors(),
         ));
     }
-
 }

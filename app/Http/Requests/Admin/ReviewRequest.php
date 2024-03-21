@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -8,7 +8,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Jiannei\Enum\Laravel\Repositories\Enums\HttpStatusCodeEnum;
 use Jiannei\Response\Laravel\Support\Facades\Response;
 
-class CategoryRequest extends FormRequest
+class ReviewRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,10 +26,9 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'parent_category_id' => 'nullable|numeric|exists:categories,id',
-            'title' => 'required|string|min:3|max:15',
-            'description' => 'nullable|string|',
-            'slug' => 'required|unique:categories,slug|min:2',
+            'product_id' => 'numeric|exists:products,id',
+            'comment' => 'string|min:3|max:255',
+            'rating' => 'numeric|min:1|max:5',
         ];
     }
 
@@ -41,4 +40,5 @@ class CategoryRequest extends FormRequest
             errors: $validator->errors(),
         ));
     }
+
 }

@@ -81,4 +81,8 @@ class UserController extends Controller
         }
         return Response::success();
     }
+
+    public function getUserCarts(User $user){
+        return $user;
+    }
 }

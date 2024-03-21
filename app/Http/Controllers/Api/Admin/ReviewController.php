@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\api\admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ReviewRequest;
+use App\Http\Requests\Admin\ReviewRequest;
 use App\Http\Resources\ReviewResource;
 use App\Models\Review;
-use Illuminate\Http\Request;
 use Jiannei\Response\Laravel\Support\Facades\Response;
 
 class ReviewController extends Controller
